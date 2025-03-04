@@ -125,3 +125,10 @@ box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   pointer-events: none; /* Prevents blocking interactions */
   z-index: 1; /* Places it above the list but below main content */
 }
+.scrollable-list {
+  scroll-snap-type: y mandatory; /* Enables vertical snapping */
+}
+
+.list-item {
+  scroll-snap-align: end; /* Makes items snap into place */
+}
