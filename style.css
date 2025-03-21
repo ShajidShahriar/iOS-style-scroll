@@ -1,4 +1,4 @@
-body{
+body {
   margin: 0px;
   padding: 0px;
   display: flex;
@@ -15,14 +15,14 @@ body{
   justify-content: center;
   align-items: center;
   text-align: center;
-  position: relative; /* Needed for absolute pseudo-element */
+  position: relative;
   border: 8px solid black;
   border-radius: 55px;
   padding: 20px;
-  overflow: hidden; /* Ensures blur effect doesn't spill out */
+  overflow: hidden; /* Keeps content inside */
 }
 
-/* Create a pseudo-element to blur the background image inside the box */
+/* Keep only static background blur */
 .blurred-box::before {
   content: "";
   position: absolute;
@@ -31,64 +31,59 @@ body{
   width: 130%;
   height: 130%;
   background: url('ios_wallpaper.jpg') center/cover no-repeat;
-  filter: blur(10px); /* This blurs only the background image inside the box */
-  z-index: -1; /* Ensures the blur stays behind the text */
-  opacity: 0.9; /* Adjust transparency if needed */
+  filter: blur(10px);
+  z-index: -1;
+  opacity: 0.9;
 }
 
-.search-box{
-position: absolute;
-z-index: 2;
-top: 25px;
-width: 80%;
-height: 30px;
-border: none;
-border-radius: 20px;
-padding: 10px 15px;
-font-size: 16px;
-outline: none;
-background: rgba(255,255,255,0.3);
-backdrop-filter:blur(15px);
-box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-
+.search-box {
+  position: absolute;
+  z-index: 2;
+  top: 25px;
+  width: 80%;
+  height: 30px;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.scrollable-list{
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+
+/* Scrollable list now fully controlled by GSAP */
+.scrollable-list {
   position: absolute;
   top: 0;
   width: 90%;
   max-height: calc(100% - 90px);
   overflow-y: auto;
   padding-top: 90px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.3);
-  z-index:0 ;
+  z-index: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.list-item{
+
+.list-item {
   padding: 12px;
   margin: 5px 0;
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 60px;
   text-align: center;
   font-size: 16px;
   color: white;
   cursor: pointer;
-  
+  opacity: 1; /* No CSS animations, GSAP will handle */
+  transform: translateY(0);
 }
 
-.scrollable-list {
-  scrollbar-width: none;
-  -ms-overflow-style: none; 
-}
 .blurred-box::after {
   content: "";
   position: absolute;
   top: 0px; 
   left: 0;
   width: 100%;
-  height: 100px; /* Adjust based on how tall you want the fade */
+  height: 130px; /* Adjust based on how tall you want the fade */
   mask: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 1) 0%,   /* Darker and more opaque at the top */
@@ -100,35 +95,7 @@ box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   pointer-events: none; /* Ensures it doesn’t block scrolling */
   z-index: 1;           /* Above the list, below the search bar */
 }
-.bottom-blur {
-  position: absolute;
-  bottom: 0; /* Places it at the bottom */
-  left: 0;
-  width: 100%;
-  height: 40px; /* Smaller height for bottom effect */
-
-  mask: linear-gradient(
-    to top,  /* Inverted direction for bottom blur */
-    rgba(0, 0, 0, 1) 0%,    /* Fully visible at the bottom */
-    rgba(0, 0, 0, 0.6) 40%,  /* Gradually fades */
-    rgba(0, 0, 0, 0) 100%    /* Fully transparent moving up */
-  );
-
-  -webkit-mask: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.6) 40%,
-    rgba(0, 0, 0, 0) 100%
-  );
-
-  backdrop-filter: blur(1px); /* Similar to top blur but less intense */
-  pointer-events: none; /* Prevents blocking interactions */
-  z-index: 1; /* Places it above the list but below main content */
-}
 .scrollable-list {
-  scroll-snap-type: y mandatory; /* Enables vertical snapping */
-}
-
-.list-item {
-  scroll-snap-align: end; /* Makes items snap into place */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
